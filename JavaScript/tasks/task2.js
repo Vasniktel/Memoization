@@ -11,7 +11,7 @@ const generateKey = args => (
 
 const memoize = (fn, limit) => {
   const cache = []; // array of objects { data, used, key }
-  const keys = new Map(); // key: ref to { data, used, key }
+  const keys = new Map(); // object { key: { data, used, key } }
   return (...args) => {
     const key = generateKey(args);
     const val = keys.get(key);
@@ -30,31 +30,6 @@ const memoize = (fn, limit) => {
     return res.data;
   };
 };
-
-/*
-// Unkonwn behaviour
-const memoize = (fn, limit) => {
-  const cache = []; // array of arrays [val, used]
-  //const keys = []; // key: ref to [val, used, key] UNKNOWN BEHAVIOUR
-  return (...args) => {
-    const key = generateKey(args);
-    const val = cache[key];
-    console.dir({ key, val });
-    if (val) {
-      val[1]++;
-      cache.sort((a, b) => b[1] - a[1]);
-      console.dir({ cache });
-      return val[0];
-    }
-    if (cache.length === limit) cache.pop();
-    const res = [fn(...args), 0];
-    //cache.push(res);
-    cache[key] = res;
-    console.dir({ cache, keys });
-    return res[0];
-  };
-};
-*/
 
 // Usage
 
